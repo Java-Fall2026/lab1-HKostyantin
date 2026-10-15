@@ -10,7 +10,7 @@ java {
 }
 
 application {
-    mainClass = 'ua.Main' // <-- your main class, e.g. 'ua.hotel.Main'
+    mainClass = 'ua.library.Main' // <-- your main class, e.g. 'ua.hotel.Main'
 }
 
 tasks.withType(JavaCompile).configureEach {
