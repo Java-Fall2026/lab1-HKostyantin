@@ -19,33 +19,4 @@ final class FormatHelper {
     static String formatMoney(double money) {
         return String.format("%.2f", money);
     }
-
-    static String genreName(String genre) {
-        if (genre.equals("FICTION")) {
-            return "художня література";
-        }
-        if (genre.equals("SCIENCE")) {
-            return "наукова література";
-        }
-        if (genre.equals("HISTORY")) {
-            return "історична література";
-        }
-        if (genre.equals("BIOGRAPHY")) {
-            return "біографія";
-        }
-        return genre;
-    }
-
-    static String statusName(String status) {
-        if (status.equals("ACTIVE")) {
-            return "активна";
-        }
-        if (status.equals("RETURNED")) {
-            return "повернено";
-        }
-        if (status.equals("OVERDUE")) {
-            return "прострочено";
-        }
-        return status;
-    }
 }

@@ -1,22 +1,24 @@
 package ua.library.model;
 
 import java.time.LocalDate;
-import ua.common.BaseEntity;
+import java.time.LocalDateTime;
 import ua.library.util.LibraryUtils;
 
-public final class BookLoan extends BaseEntity {
+// BookLoan stays a class because returnDate and status can change.
+public final class BookLoan {
+    private final LocalDateTime createdAt;
     private final Book book;
     private final Reader reader;
     private final LocalDate issueDate;
     private final LocalDate dueDate;
     private LocalDate returnDate;
-    private String status;
+    private LoanStatus status;
 
     private BookLoan(Book book, Reader reader, LocalDate issueDate, LocalDate dueDate,
-                     LocalDate returnDate, String status) {
-        super();
-        LibraryUtils.notNull(book, "Книга у видачі");
-        LibraryUtils.notNull(reader, "Читач у видачі");
+                     LocalDate returnDate, LoanStatus status) {
+        this.createdAt = LocalDateTime.now();
+        LibraryUtils.notNull(book, "Loan book");
+        LibraryUtils.notNull(reader, "Loan reader");
         this.book = book;
         this.reader = reader;
         this.issueDate = LibraryUtils.issueDate(issueDate);
@@ -26,8 +28,12 @@ public final class BookLoan extends BaseEntity {
     }
 
     public static BookLoan of(Book book, Reader reader, LocalDate issueDate, LocalDate dueDate,
-                              LocalDate returnDate, String status) {
+                              LocalDate returnDate, LoanStatus status) {
         return new BookLoan(book, reader, issueDate, dueDate, returnDate, status);
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     public Book getBook() {
@@ -50,7 +56,7 @@ public final class BookLoan extends BaseEntity {
         return returnDate;
     }
 
-    public String getStatus() {
+    public LoanStatus getStatus() {
         return status;
     }
 
@@ -58,8 +64,9 @@ public final class BookLoan extends BaseEntity {
         this.returnDate = LibraryUtils.returnDate(returnDate, issueDate);
     }
 
-    public final void setStatus(String status) {
-        this.status = LibraryUtils.status(status);
+    public final void setStatus(LoanStatus status) {
+        LibraryUtils.notNull(status, "Loan status");
+        this.status = status;
     }
 
     public long loanDays() {
@@ -94,8 +101,8 @@ public final class BookLoan extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Видача книги{книга=" + book + ", читач=" + reader + ", дата видачі=" + issueDate
-                + ", повернути до=" + dueDate + ", фактична дата повернення=" + LibraryUtils.dateText(returnDate) + ", стан='" + LibraryUtils.statusName(status)
-                + "', створено=" + createdAt + "}";
+        return "BookLoan{book=" + book + ", reader=" + reader + ", issueDate=" + issueDate
+                + ", dueDate=" + dueDate + ", returnDate=" + LibraryUtils.dateText(returnDate)
+                + ", status=" + status + ", createdAt=" + createdAt + "}";
     }
 }
