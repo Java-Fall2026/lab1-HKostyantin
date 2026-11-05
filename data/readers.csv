@@ -1,0 +1,7 @@
+readerTicketNumber,fullName,birthDate
+R-101,Olena Kovalenko,2003-04-18
+R-102,Andrii Bondarenko,2001-06-25
+,Missing Ticket,1999-01-01
+R-103,Wrong Date,2001-17-99
+R-104,Too Young,2020-01-01
+R-105,Maria Melnyk,1998-08-12

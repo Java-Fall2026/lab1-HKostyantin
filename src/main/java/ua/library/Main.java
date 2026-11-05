@@ -2,6 +2,12 @@
 package ua.library;
 
 import java.time.LocalDate;
+import java.nio.file.Path;
+import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ua.library.exception.InvalidDataException;
+import ua.library.io.LibraryCsvLoader;
 import ua.library.model.Author;
 import ua.library.model.Book;
 import ua.library.model.BookLoan;
@@ -11,6 +17,8 @@ import ua.library.model.Reader;
 import ua.library.util.LibraryUtils;
 
 public class Main {
+
+    private static final Logger log = LoggerFactory.getLogger(Main.class);
 
     private static String yesOrNo(boolean value) {
         if (value) {
@@ -81,6 +89,7 @@ public class Main {
         try {
             loan.setReturnDate(issue.minusDays(1));
         } catch (IllegalArgumentException e) {
+            log.warn("Invalid return date was rejected: {}", e.getMessage());
             System.out.println("Неправильна дата повернення: " + e.getMessage());
         }
 
@@ -139,5 +148,28 @@ public class Main {
         System.out.println(book);
         System.out.println(reader);
         System.out.println(loan);
+
+
+        System.out.println("\n=== Лабораторна робота №3. Читання CSV ===");
+
+        List<Author> csvAuthors = LibraryCsvLoader.loadAuthors(Path.of("data", "authors.csv"));
+        List<Reader> csvReaders = LibraryCsvLoader.loadReaders(Path.of("data", "readers.csv"));
+        System.out.println("Завантажено авторів: " + csvAuthors.size());
+        System.out.println("Завантажено читачів: " + csvReaders.size());
+
+        System.out.println("\nПеревірка checked-виключення:");
+        try {
+            LibraryCsvLoader.parseAuthor("A-99,Incorrect Author,not-a-year", 99);
+        } catch (InvalidDataException e) {
+            log.warn("InvalidDataException was handled: {}", e.getMessage());
+            System.out.println("Некоректний рядок: " + e.getMessage());
+        }
+
+        System.out.println("\nПеревірка відсутнього файла:");
+        List<Author> missingAuthors = LibraryCsvLoader.loadAuthors(
+                Path.of("data", "missing_authors.csv"));
+        System.out.println("Завантажено з відсутнього файла: " + missingAuthors.size());
+
+        log.info("Lab 3 demonstration completed");
     }
 }

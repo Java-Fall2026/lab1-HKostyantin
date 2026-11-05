@@ -6,7 +6,7 @@ import ua.library.model.BookLoan;
 import ua.library.model.Genre;
 import ua.library.model.LoanStatus;
 
-// Public entry point for validation, formatting and calculations.
+
 public final class LibraryUtils {
     private LibraryUtils() {
     }

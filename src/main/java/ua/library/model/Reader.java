@@ -10,7 +10,7 @@ public record Reader(String readerTicketNumber, String fullName, LocalDate birth
         birthDate = LibraryUtils.readerBirthDate(birthDate);
     }
 
-    // Keep the factory method from Lab 1.
+
     public static Reader of(String readerTicketNumber, String fullName, LocalDate birthDate) {
         return new Reader(readerTicketNumber, fullName, birthDate);
     }
