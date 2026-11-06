@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import ua.library.util.LibraryUtils;
 
-// BookLoan stays a class because returnDate and status can change.
+
 public final class BookLoan {
     private final LocalDateTime createdAt;
     private final Book book;
