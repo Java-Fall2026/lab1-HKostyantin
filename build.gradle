@@ -38,3 +38,11 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+// Lab 4: benchmark
+tasks.register('benchmark', JavaExec) {
+    group = 'application'
+    description = 'Compare repository Map lookup with linear List search.'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'ua.library.repository.SearchBenchmark'
+}
