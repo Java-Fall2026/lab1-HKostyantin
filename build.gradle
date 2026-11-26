@@ -10,7 +10,7 @@ java {
 }
 
 application {
-    mainClass = 'ua.library.Main' // <-- your main class, e.g. 'ua.hotel.Main'
+    mainClass = 'ua.library.Main'
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -38,6 +38,17 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+// Lab 5: launch only the new Stream API demonstration.
+
+tasks.register('lab5', JavaExec) {
+    group = 'application'
+    description = 'Run Lab 5 only'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'ua.library.Main'
+    args '--lab5'
+}
+
 
 // Lab 4: benchmark
 tasks.register('benchmark', JavaExec) {
