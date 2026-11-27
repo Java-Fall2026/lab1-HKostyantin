@@ -2,10 +2,13 @@ package ua.library.repository;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Objects;
+import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -103,6 +106,33 @@ public class GenericRepository<T> {
 
     public List<T> findAll() {
         return List.copyOf(new ArrayList<>(items.values()));
+    }
+    /**
+     * lab5
+     */
+    public Stream<T> stream() {
+        return items.values().stream();
+    }
+
+    public List<T> findAllSorted(Comparator<T> comparator) {
+        Objects.requireNonNull(comparator, "Comparator must not be null");
+        List<T> result = stream().sorted(comparator).toList();
+        log.info("Repository '{}' sorted by custom comparator: {} elements", name, result.size());
+        return result;
+    }
+
+    public List<T> findAllSortedByIdentity(SortOrder order) {
+        Objects.requireNonNull(order, "Sort order must not be null");
+        Comparator<Map.Entry<String, T>> byKey = Map.Entry.comparingByKey();
+        if (order == SortOrder.DESC) {
+            byKey = byKey.reversed();
+        }
+        List<T> result = items.entrySet().stream()
+                .sorted(byKey)
+                .map(Map.Entry::getValue)
+                .toList();
+        log.info("Repository '{}' sorted by identity {}: {} elements", name, order, result.size());
+        return result;
     }
 
     public int size() {
